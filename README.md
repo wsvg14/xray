@@ -5,7 +5,7 @@ Without Magisk Mount, So you can use it on [Magisk Lite](<https://github.com/vvb
 
 ## Included
 * [Xray core](<https://github.com/XTLS/Xray-core>)
-* [go-tun2socks](<https://github.com/eycorsican/go-tun2socks>)
+* [tun2socks](<https://github.com/xjasonlyu/tun2socks>)
 * [magisk_module_installer](<https://github.com/topjohnwu/Magisk>)
 
 ## Install
