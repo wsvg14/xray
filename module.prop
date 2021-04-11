@@ -1,6 +1,6 @@
 id=xray
 name=Xray for Android
-version=v1.4.0
-versionCode=20210321
+version=v1.4.2
+versionCode=20210411
 author=whalechoi ,modded by wsvg14
 description=Xray core with service scripts for Android.
