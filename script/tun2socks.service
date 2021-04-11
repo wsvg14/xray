@@ -24,7 +24,7 @@ proxy_mark="0x1234"
 #bin_opts="-loglevel warn -proxyServer ${xray_addr}:${xray_port} -proxyType socks -tunAddr ${netif_addr} -tunGw ${tun_addr} -tunMask ${netif_netmask} -tunName ${tun_dev} -tunPersist"
 bin_opts="-loglevel warn -device tun://${tun_dev} -proxy socks5://${xray_addr}:${xray_port}"
 iptables_wait="iptables"
-iptables_intranet=(0.0.0.0/8 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 224.0.0.0/4 240.0.0.0/4)
+iptables_intranet=(0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4)
 
 suit_iptables_version() {
   iptables_version=`iptables -V | grep -o "v1\.[0-9]"`
@@ -95,6 +95,7 @@ enable_proxy() {
 
   ${iptables_wait} -t mangle -A TUN2SOCKS -p tcp -m owner --gid-owner ${xray_gid} -j RETURN
   ${iptables_wait} -t mangle -A TUN2SOCKS -p udp -m owner --gid-owner ${xray_gid} -j RETURN
+  ${iptables_wait} -t mangle -A TUN2SOCKS -d 198.18.0.0/16 -j MARK --set-mark ${proxy_mark}
   ${iptables_wait} -t mangle -A TUN2SOCKS -j MARK --set-mark ${proxy_mark}
   ${iptables_wait} -t mangle -A OUTPUT -p tcp -j TUN2SOCKS
   ${iptables_wait} -t mangle -A OUTPUT -p udp -j TUN2SOCKS

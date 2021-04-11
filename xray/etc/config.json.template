@@ -42,22 +42,6 @@
       "enabled": true,
       "destOverride": ["http", "tls"]
     }
-  },{
-    // Just listen for DNS.
-    "port": 53,
-
-    // Tag of the inbound for DNS proxy routing.
-    "tag": "dns-in",
-
-    // DNS proxy protocol must be dokodemo-door.
-    "protocol": "dokodemo-door",
-
-    // Setting of DNS proxy.
-    "settings": {
-      "port": 53,
-      "address": "223.5.5.5",
-      "network": "tcp,udp"
-    }
   }],
   // List of outbound proxy configurations.
   "outbounds": [{
@@ -83,7 +67,10 @@
     "protocol": "blackhole",
     "settings": {},
     "tag": "blocked"
-  }],
+  },{
+    "protocol": "dns",
+    "tag": "dns-out"
+   }],
 
   // Transport is for global transport settings. If you have multiple transports with same settings
   // (say mKCP), you may put it here, instead of in each individual inbound/outbounds.
@@ -98,6 +85,10 @@
         "type": "field",
         "ip": ["geoip:private"],
         "outboundTag": "direct"
+      },
+      {
+        "inboundTag": ["proxy-inbound"],
+        "outboundTag": "dns-out"
       },
       {
         // Bypass all china IPs.
@@ -129,16 +120,7 @@
   // Dns settings for domain resolution.
   "dns": {
     // Static hosts, similar to hosts file.
-    "hosts": {
-      // Match v2fly.org to another domain on CloudFlare. This domain will be used when querying IPs for v2fly.org.
-      "domain:v2fly.org": "www.vicemc.net",
-
-      // The following settings help to eliminate DNS poisoning in mainland China.
-      // It is safe to comment these out if this is not the case for you.
-      "domain:github.io": "pages.github.com",
-      "domain:wikipedia.org": "www.wikimedia.org",
-      "domain:shadowsocks.org": "electronicsrealm.com"
-    },
+    "hosts": {},
     "servers": [
       "1.1.1.1",
       "1.0.0.1",
